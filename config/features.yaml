@@ -1,0 +1,253 @@
+---
+-
+    group: spatial
+    feature: regionLevel1
+    description: States in Germany (e.g. Nordrhein Westfalen (n=62863), Sachsen (n=58154), Bayern (n=21609))
+    type: object
+    training: not_included
+    comments: Used to improve the data distribution in train and test
+-
+    group: spatial
+    feature: regionLevel2
+    description: Cities in Germany (e.g. Leipzig (n=13723), Chemnitz (n=12575), Berlin (n=10406))
+    type: object
+    training: not_included
+    comments: Informative but needs geospatial data
+-
+    group: spatial
+    feature: regionLevel3
+    description: Towns in Germany (e.g. Innenstadt (n=4751), Stadtmitte (n=2697), Altstadt (n=2334))
+    type: object
+    training: not_included
+    comments: Informative but needs geospatial data
+-
+    group: address
+    feature: houseNumber
+    description: Adress house number
+    type: object
+    training: not_included
+    comments: Could be informative but needs geospatial data
+-
+    group: address
+    feature: street
+    description: Adress street
+    type: object
+    training: not_included
+    comments: Informative but needs geospatial data
+-
+    group: address
+    feature: lift
+    description: Adress lift
+    type: bool
+    training: not_included
+    comments: Could be informative but needs geospatial data
+-
+    group: address
+    feature: postcode
+    description: Adress postal code 
+    type: int64
+    training: not_included
+    comments: Could be informative but needs geospatial data
+-
+    group: address
+    feature: floor
+    description: Adress floor
+    type: float64
+    training: not_included
+    comments: Info available at numberOfFloors
+-
+    group: billing
+    feature: serviceCharge
+    description: Cost of heating, energy, internet (?)
+    type: float64
+    training: included
+    comments: ok!
+-
+    group: energy
+    feature: heatingType
+    description: The type of heating system rent has (https://www.rentals.com/blog/pros-and-cons-of-different-types-of-home-heating-systems-in-a-rental-home/)
+    type: object
+    training: tbd
+    comments: many variables to be encoded. We can study if it could be useful for the model
+-
+    group: energy
+    feature: heatingCosts
+    description: The cost of heating type
+    type: float64
+    training: no
+    comments: 67.96% of missing nan
+-
+    group: energy
+    feature: energyEfficiencyClass
+    description: Efficient class (e.g. C (n=14613), D (n=14130), B (n=11333))
+    type: object
+    training: tbd
+    comments: many variables to be encoded. We can study if it could be useful for the model
+-
+    group: energy
+    feature: electricityBasePrice
+    description: Base price of electricity
+    type: float64
+    training: no
+    comments: 82.72% of missing nan
+-
+    group: energy
+    feature: electricityKwhPrice
+    description: Kwh price of electricity
+    type: float64
+    training: no
+    comments: 82.72% of missing nan
+-
+    group: energy
+    feature: firingTypes
+    description: Type of energies used in the building
+    type: object
+    training: tbd
+    comments: many variables to be encoded. We can study if it could be useful for the model
+-
+    group: communications
+    feature: telekomTvOffer
+    description: TV catalogue (PPV TV (?))
+    type: object
+    training: ohe
+    comments: Variable has been One Hot Encoded
+-
+    group: communications
+    feature: telekomHybridUploadSpeed
+    description: Upload hybrid speed of Internet
+    type: float64
+    training: no
+    comments: Not enough information for modelling here
+-
+    group: communications
+    feature: telekomUploadSpeed
+    description: Upload speed of Internet
+    type: float64
+    training: encoded
+    comments: Variable has been Encoded in categories
+-
+    group: house
+    feature: newlyConst
+    description: If the house has been constructed in the last times
+    type: bool
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: balcony
+    description: If the house has a balcony
+    type: bool
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: yearConstructed
+    description: Year when the building was constructed
+    type: float64
+    training: no
+    comments: 21.58% of nan
+-
+    group: house
+    feature: noParkSpaces
+    description: Number of parkings
+    type: float64
+    training: no
+    comments: variable distribution is strange. Nan is 66.04%
+-
+    group: house
+    feature: noRooms
+    description: Number of rooms
+    type: float64
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: kitchen
+    description: If the building has a kitchen
+    type: bool
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: cellar
+    description: If the building has a cellar
+    type: bool
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: garden
+    description: If the building has a garden
+    type: bool
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: livingSpace
+    description: Meters of livingSpace
+    type: float64
+    training: included
+    comments: ok!
+-
+    group: house
+    feature: typeOfFlat
+    description: Type of flat to live (e.g. apartment (n=131522), roof_storey (n=34787), ground_floor (n=31538))
+    type: object
+    training: ohe
+    comments: Variable has been One Hot Encoded
+-
+    group: house
+    feature: numberOfFloors
+    description: Number of floors
+    type: float64
+    training: encoded
+    comments: Variable has been Encoded in categories
+-
+    group: quality
+    feature: condition
+    description: Type of condition
+    type: object
+    training: ohe
+    comments: Variable has been One Hot Encoded
+-
+    group: quality
+    feature: interiorQuality
+    description: Quality inside the rent Interior
+    type: object
+    training: ohe
+    comments: Variable has been One Hot Encoded
+-
+    group: quality
+    feature: petsAllowed
+    description: If the house allow for pets
+    type: object
+    training: ohe
+    comments: Variable has been One Hot Encoded
+-
+    group: quality
+    feature: lastRefurbish
+    description: Time of last refurbish
+    type: float64
+    training: encoded
+    comments: Variable has been Encoded in categories
+-
+    group: price
+    feature: totalRent
+    description: Total rent
+    type: float64
+    training: no
+    comments: variables to be predicted
+-
+    group: nlp
+    feature: description
+    description: House description
+    type: object
+    training: no
+    comments: Only used in task 2
+-
+    group: nlp
+    feature: facilities
+    description: House facilities
+    type: object
+    training: no
+    comments: Only used in task 2
