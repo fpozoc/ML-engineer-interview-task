@@ -1,0 +1,37 @@
+# further improvement for training procedures
+name: 'test'
+on:
+  push:
+    branches-ignore:
+      - 'master'
+      - 'main'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          make install
+      - name: Lint with flake8 & black
+        run: |
+          make lint
+      - name: Unit tests
+        run: |
+          make test
+      # - name: Regression e2e tests
+      #   run: |
+      #     make clean make-dataset train
+      - name: Coverage report
+        run: |
+          make coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
