@@ -1,0 +1,37 @@
+group	feature	description	type	training	comments
+spatial	regionLevel1	States in Germany (e.g. Nordrhein Westfalen (n=62863), Sachsen (n=58154), Bayern (n=21609))	object	not_included	Used to improve the data distribution in train and test
+spatial	regionLevel2	Cities in Germany (e.g. Leipzig (n=13723), Chemnitz (n=12575), Berlin (n=10406))	object	not_included	Informative but needs geospatial data
+spatial	regionLevel3	Towns in Germany (e.g. Innenstadt (n=4751), Stadtmitte (n=2697), Altstadt (n=2334))	object	not_included	Informative but needs geospatial data
+address	houseNumber	Adress house number	object	not_included	Could be informative but needs geospatial data
+address	street	Adress street	object	not_included	Informative but needs geospatial data
+address	lift	Adress lift	bool	not_included	Could be informative but needs geospatial data
+address	postcode	Adress postal code 	int64	not_included	Could be informative but needs geospatial data
+address	floor	Adress floor	float64	not_included	Info available at numberOfFloors
+billing	serviceCharge	Cost of heating, energy, internet (?)	float64	included	ok!
+energy	heatingType	The type of heating system rent has (https://www.rentals.com/blog/pros-and-cons-of-different-types-of-home-heating-systems-in-a-rental-home/)	object	tbd	many variables to be encoded. We can study if it could be useful for the model
+energy	heatingCosts	The cost of heating type	float64	no	67.96% of missing nan
+energy	energyEfficiencyClass	Efficient class (e.g. C (n=14613), D (n=14130), B (n=11333))	object	tbd	many variables to be encoded. We can study if it could be useful for the model
+energy	electricityBasePrice	Base price of electricity	float64	no	82.72% of missing nan
+energy	electricityKwhPrice	Kwh price of electricity	float64	no	82.72% of missing nan
+energy	firingTypes	Type of energies used in the building	object	tbd	many variables to be encoded. We can study if it could be useful for the model
+communications	telekomTvOffer	TV catalogue (PPV TV (?))	object	ohe	Variable has been One Hot Encoded
+communications	telekomHybridUploadSpeed	Upload hybrid speed of Internet	float64	no	Not enough information for modelling here
+communications	telekomUploadSpeed	Upload speed of Internet	float64	encoded	Variable has been Encoded in categories
+house	newlyConst	If the house has been constructed in the last times	bool	included	ok!
+house	balcony	If the house has a balcony	bool	included	ok!
+house	yearConstructed	Year when the building was constructed	float64	no	21.58% of nan
+house	noParkSpaces	Number of parkings	float64	no	variable distribution is strange. Nan is 66.04%
+house	noRooms	Number of rooms	float64	included	ok!
+house	kitchen	If the building has a kitchen	bool	included	ok!
+house	cellar	If the building has a cellar	bool	included	ok!
+house	garden	If the building has a garden	bool	included	ok!
+house	livingSpace	Meters of livingSpace	float64	included	ok!
+house	typeOfFlat	Type of flat to live (e.g. apartment (n=131522), roof_storey (n=34787), ground_floor (n=31538))	object	ohe	Variable has been One Hot Encoded
+house	numberOfFloors	Number of floors	float64	encoded	Variable has been Encoded in categories
+quality	condition	Type of condition	object	ohe	Variable has been One Hot Encoded
+quality	interiorQuality	Quality inside the rent Interior	object	ohe	Variable has been One Hot Encoded
+quality	petsAllowed	If the house allow for pets	object	ohe	Variable has been One Hot Encoded
+quality	lastRefurbish	Time of last refurbish	float64	encoded	Variable has been Encoded in categories
+price	totalRent	Total rent	float64	no	variables to be predicted
+nlp	description	House description	object	no	Only used in task 2
+nlp	facilities	House facilities	object	no	Only used in task 2
