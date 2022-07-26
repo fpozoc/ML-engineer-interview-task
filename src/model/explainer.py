@@ -13,9 +13,7 @@ from __future__ import absolute_import, division, print_function
 import argparse, os, pickle, warnings
 
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
-
-from explainerdashboard import ClassifierExplainer, ExplainerDashboard
+from explainerdashboard import RegressionExplainer, ExplainerDashboard
 
 from .model_selection import Classifier
 from ..utils.utils import *
@@ -35,32 +33,24 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("-d", "--dataset", help="Training set.")
+    parser.add_argument("-m", "--model", help="Model to explain.")
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
 
     df = pd.read_csv(args.dataset, sep="\t", compression="gzip")
 
-    # pretrained_model = pickle.load(open(os.path.join('models', 'selected_model.pkl'), 'rb'))
-    # model = Classifier(
-    #     model=pretrained_model,
-    #     df=df[df.columns[1:]],
-    #     features_col=df.columns[2:],
-    #     target_col='totalRent',
-    #     model_type='regression',
-    #     )
+    my_model = pickle.load(open(args.model, 'rb'))
     model = Classifier(
-        model=RandomForestRegressor(
-            n_estimators=1000, min_samples_leaf=3, random_state=123
-        ),
+        model=my_model,
         df=df[df.columns[1:]],
         features_col=df.columns[2:],
-        target_col="totalRent",
-        model_type="regression",
-    )
-    model.fit(model.train_features, model.train_target)
+        target_col='totalRent',
+        model_type='regression',
+        )
+    my_model.fit(model.train_features, model.train_target)
 
-    explainer = ClassifierExplainer(model, model.test_features, model.test_target)
+    explainer = RegressionExplainer(model, model.test_features, model.test_target)
     ExplainerDashboard(explainer).run()
 
 
