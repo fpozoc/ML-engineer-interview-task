@@ -2,13 +2,6 @@
 
 --------------------------------------------------------------------------------
 
-TO-DO
-
-- [] Train the second model.
-- [] Execute `explainer.py`.
-- [] Create a tree from project
-- [] Push to GitHub
-
 ## Table of contents
 
 - [Nomoko-ML-engineer-interview-task](#nomoko-ml-engineer-interview-task)
