@@ -20,6 +20,8 @@
     - [Improvements](#improvements)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Makefile](#makefile)
+    - [Docker](#docker)
   - [Project structure](#project-structure)
   - [Author information](#author-information)
   - [Release History](#release-history)
@@ -74,9 +76,9 @@ On the one hand, to create the training set for task 1, I used the following ste
 - **Feature selection** to get the optimal number of predictive features for the model. The correlation matrix adds valuable insights into this process.
 - I got **199339 instances + 42 more intelligent features** ready for task 1 after previous steps.
 - **Model training** and **model selection** to train the model with the selected features. The model that achieved the best performance was the `XGBRegressor` model. To make this model selection, I used the `GridSearchCV` function, and I designed a strategy to follow a Nested Cross-Validation for selecting the optimal set of hyperparameters and to get the best model for this task. Other models like `DecisionTreeRegressor`, `RandomForestRegressor` or `GradientBoostingRegressor` were also tested. It is important to say that setting more models and a higher space of hyperparameters to be explored can improve the final model performance. This is why I have prepared in `src/model/model_selection.py` a complete script for doing this.
-- **Model evaluation** and **model interpretation** to evaluate with different metrics evaluation and interpret how our model is running. The `ExplainerDashboard` package released an amazing HTML notebook for this exploration. The notebook can be found in `reports/interpretation.model.v1.0.0.html`.
+- **Model evaluation** and **model interpretation** to evaluate with different metrics evaluation and interpret how our model is running. The `ExplainerDashboard` package released an amazing HTML notebook for this exploration. The notebook can be found in [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
 - **Model persistence** to save the model in a file. The model can be used in the future to predict the total rent of the property. Now I have desinged a script to do this and also, to manually capture all the model logs. However, it is interesting to integrate it in a platform like Weight and Biases or MLflow to build better models at large scale.
-- **Model evaluation** results can be checked in the (`notebooks/02.task_1.ipynb`)[https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/notebooks/02.task_1.ipynb] file.
+- **Model evaluation** results can be checked in the [`notebooks/02.task_1.ipynb`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/notebooks/02.task_1.ipynb) file.
 
 ### Task 2
 
@@ -113,7 +115,53 @@ conda activate nomoko
 
 Clone this repository and install it inside your recently created Conda environment.
 
+```sh
+git clone https://github.com/fpozoc/Nomoko-ML-engineer-interview-task
+cd Nomoko-ML-engineer-interview-task
+pip install .
+
+# optional
+	pip install -e ".[test, serve]"
+```
+
 ## Usage
+
+First of all, copy and paste `immo_data.csv` in the `data/raw` folder.
+
+```sh
+cp immo_data.csv data/raw
+head -n 500 data/raw/immo_data.csv data/interim/immo_data.test.csv # to create a test from data
+```
+
+### Makefile
+
+Try out the make commands on the dataset model (see `make help`).
+
+```
+clean                          clean artifacts
+coverage                       create coverage report
+make-dataset                   run ETL pipeline for task 1
+make-dataset-text              run ETL pipeline for task 2
+help                           show help on available commands
+lint                           flake8 linting and black code style
+run-pipeline                   clean artifacts -> generate dataset -> train -> serve
+serve                          serve trained model with a REST API using dploy-kickstart
+test-docker                    run unit tests in docker environment
+test                           run unit tests in the current virtual environment
+train                          train the model for task 1
+train-text                     train the model for task 2
+```
+
+### Docker 
+
+Currently, you can find the following docker files:
+
+1. jupyter.Dockerfile builds an image for running notebooks.
+2. test.Dockerfile builds an image to run all tests in (make test-docker).
+3. model.Dockerfile build an image to train the model. 
+
+User can start all services using `docker-compose`:
+for example `docker-compose up jupyter`.
 
 
 ## Project structure
@@ -193,6 +241,7 @@ See `LICENSE` [file](LICENSE).
 
 Just added some to-do ideas if I continue working on this project.
 
+- [ ] API deployment with dploy-kickstart (Already implemented in Makefile). 
 - [ ] Implement an e2e model versioning solution like Weight and Biases, Neptune or MLFlow.
 - [ ] Complete testing coverage and activate codecov.
 - [ ] Setup dependabot.
