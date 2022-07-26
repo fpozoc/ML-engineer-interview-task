@@ -156,9 +156,9 @@ train-text                     train the model for task 2
 
 Currently, you can find the following docker files:
 
-1. jupyter.Dockerfile builds an image for running notebooks.
-2. test.Dockerfile builds an image to run all tests in (make test-docker).
-3. model.Dockerfile build an image to train the model. 
+1. `docker/jupyter.Dockerfile` builds an image for running notebooks.
+2. `docker/test.Dockerfile` builds an image to run all tests in (make test-docker).
+3. `docker/model.Dockerfile` build an image to train the model. 
 
 User can start all services using `docker-compose`:
 for example `docker-compose up jupyter`.
