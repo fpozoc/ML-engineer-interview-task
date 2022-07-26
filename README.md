@@ -1,6 +1,10 @@
 # Nomoko-ML-engineer-interview-task
 
---------------------------------------------------------------------------------
+[![Python version](https://img.shields.io/badge/python-3.10-blue.svg)](https://pypi.org/project/kedro/)
+[![GitHub](https://img.shields.io/badge/--181717?logo=github&logoColor=ffffff)](https://github.com/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+ [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/fpozoc/qsplice/blob/master/.pre-commit-config.yaml)
 
 ## Table of contents
 
@@ -16,13 +20,12 @@
     - [Improvements](#improvements)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Author](#author)
+  - [Author information](#author-information)
+  - [Release History](#release-history)
+  - [Contributing](#contributing)
   - [License](#license)
-  - [References](#references)
-  - [Problemas](#problemas)
 
 --------------------------------------------------------------------------------
-
 
 
 ## Objective
@@ -49,6 +52,9 @@ Additional points will be considered for DB schema design and access (postgreSQL
 --------------------------------------------------------------------------------
 
 ## Solution overview
+
+![schema](img/nomoko_task.png "Title")
+**Figure**: Nomoko-ML-engineer-interview-task solution. On the left side, the process of getting the training set for the first task is presented. In green, the NLP preprocessing and the dataset construction is shown. On the left side, the pipeline for the model training is presented. Finally, at the bottom, there are additional hints on the model and package deployment process.
 
 The initial database `immo_data.csv` contains  268850 records and 36 features of real estate data from Germany.
 
@@ -89,22 +95,44 @@ As I have already described, some improvements can be made to the model in the f
 
 ## Installation
 
+Run the silent installation of Miniconda/Anaconda in case you don't have this software in your environment.
+
 ```sh
-#!/bin/bash
-mamba create --name nomoko python=3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
 ```
+
+Once you have installed Miniconda/Anaconda, create a Python 3.10 environment.
+
+```sh
+conda create --name nomoko python=3.10
+conda activate nomoko
+```
+
+Clone this repository and install it inside your recently created Conda environment.
 
 ## Usage
 
-## Author
+
+## Author information
+
+Fernando Pozo
+
+- [GitHub (github.com/fpozoc)](https://github.com/fpozoc)
+- [Homepage (fpozoc.com)](https://fpozoc.com)
+- 
+## Release History
+
+**0.0.1** - Model for task 1 initial release (22 July 2022)
+
+## Contributing
+
+1. Fork it (<https://gitlab.com/bu_cnio/trifid>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
 
 ## License
 
-## References
-
-## Problemas 
-
-Problemas con estos datos:
-- No tenemos información espacial (distancia a las ciudades grandes, por ejemplo). Hay que obtenerla. Es importante visualizar dónde están las casas más caras.
-- Temperatura, trendy cities, culture, history. Es importante también.
-- Se puede hacer finetuning en sentiment analyisis siempre y cuando etiquetes los textos con las clases que quieras (https://lajavaness.medium.com/regression-with-text-input-using-bert-and-transformers-71c155034b13)
+See `LICENSE` [file](LICENSE).
