@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """ src/model/train.py
 
-Usage: python -m src.model.train --features config/features.yaml --pretrained
-__
+Usage: python -m src.model.train --dataset data/processed/training_set.v1.tsv.gz --model_selection --evaluation R2
+
 --help              |-h     Display documentation.
 --custom            |-c     Train with a customized model.
 --features          |-f     Features selected description yaml filepath.
@@ -14,15 +14,12 @@ __
 from __future__ import absolute_import, division, print_function
 
 import argparse, os, pickle, warnings
-from pathlib import Path
 
-import numpy as np
 import pandas as pd
-import random
 from sklearn.ensemble import RandomForestRegressor
 
-from model_selection import Classifier, ModelSelection
-from ..utils import utils
+from .model_selection import ModelSelection, Classifier
+from ..utils.utils import * 
 
 __author__ = "Fernando Pozo"
 __copyright__ = "Copyright 2022"
@@ -46,6 +43,9 @@ def main():
     parser.add_argument('-f', '--features', default='config/features.yaml', 
         help="Features selected description filepath.")
     parser.add_argument(
+        "-e", "--evaluation", default='Mean Absolute Error',
+        help="Metric evaluation.")
+    parser.add_argument(
         "-m", "--model_selection",  action='store_true', default=False, 
         help="Perform a nested cv model selection, training and saving the best model.")
     parser.add_argument(
@@ -58,35 +58,34 @@ def main():
 
     warnings.filterwarnings("ignore")
 
-    df = pd.read_csv(Path('../../data/training_set.tsv.gz').resolve(), sep='\t', compression='gzip')
+    df = pd.read_csv(args.dataset, sep='\t', compression='gzip')
 
     if args.model_selection:
-        ms = ModelSelection(df[df.columns[1:]].head(200), 
+        ms = ModelSelection(df[df.columns[1:]], 
                             features_col=df.columns[2:],
                             target_col='totalRent',
                             model_type='regression',
                             random_state=args.seed)
 
-        model = ms.get_best_model(outdir=Path('../../models').resolve())
+        model = ms.get_best_model(outdir='models', selection_metric=args.evaluation)
 
     elif args.custom:
         custom_model = RandomForestRegressor(
-            n_estimators=100, 
+            n_estimators=1000, 
             min_samples_leaf = 3,
             random_state=args.seed)
-
         model = Classifier(
-            model=RandomForestRegressor(n_estimators=1000, min_samples_leaf=1, random_state=SEED),
+            model=custom_model,
             df=df[df.columns[1:]],
             features_col=df.columns[2:],
             target_col='totalRent',
             model_type='regression',
             )
-        model.save_model(outdir=Path('../../models').resolve())
+        model.save_model(outdir='models')
                 
 
     elif args.pretrained:
-        pretrained_model = pickle.load(open(os.path.join(Path('../../models').resolve(), 'selected_model.pkl'), 'rb'))
+        pretrained_model = pickle.load(open(os.path.join('models', 'selected_model.pkl'), 'rb'))
         model = Classifier(
             model=pretrained_model,
             df=df[df.columns[1:]],

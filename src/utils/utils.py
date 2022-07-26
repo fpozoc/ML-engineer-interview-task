@@ -6,7 +6,10 @@ Helper Functions
 
 Classes and functions:
     * create_dir: returns the path to directory recently created.
+    * get_nan_percentages: returns a pandas DataFrame with nan percentages for each feature.
+    * get_df_info: returns a string with pandas DataFrame info.
     * impute - returns a pandas DataFrame with features imputed.
+    * log2_conversion - returns a list of log2 values.
     * merge_dataframes: returns a merged DataFrame on transcript identifier.
     * one_hot_encoding - returns a pandas DataFrame with features encoded.
     * reduce_mem_usage: returns a pandas pandas DataFrame with optimized memory usage.
@@ -24,7 +27,7 @@ import functools, gzip, os, yaml
 
 import numpy as np
 import pandas as pd
-from loguru import logger 
+from loguru import logger
 
 __author__ = "Fernando Pozo"
 __copyright__ = "Copyright 2022"
@@ -35,21 +38,21 @@ __email__ = "fpozoc@gmx.com"
 __status__ = "Development"
 
 
-def create_dir(dirpath: str) -> str: 
+def create_dir(dirpath: str) -> str:
     """mkdir -p python equivalent
-    
+
     Arguments:
         dirpath {str} -- Path to create the new folder
-    
+
     Returns:
         absolute_path {str} -- Absolute path of the new folder
-    """    
+    """
     if not os.path.exists(dirpath):
         os.makedirs(dirpath)
     absolute_path = os.path.abspath(dirpath)
 
 
-def get_df_info(df:pd.DataFrame) -> str:
+def get_df_info(df: pd.DataFrame) -> str:
     """Getting pandas DataFrame info for logging.
 
     Args:
@@ -57,15 +60,35 @@ def get_df_info(df:pd.DataFrame) -> str:
 
     Returns:
         str: Info message.
-    """    
+    """
     ncols = df.shape[1]
     nrows = df.shape[0]
-    colstr = ';'.join(df.columns)
+    colstr = ";".join(df.columns)
     msg = f"{ncols} features ({colstr}) with {nrows} instances loaded."
     return msg
 
 
-def impute(df:pd.DataFrame, features:list, n:int=None, itype:str='class', column:str=None, condition:str=None, percentile:float=None) -> pd.DataFrame:
+def get_nan_percentages(df=pd.DataFrame) -> pd.DataFrame:
+    """Get nan percentages for each feature in a pandas DataFrame.
+
+    Args:
+        df (pd.DataFrame, optional): DataFrame to get nan percentages. Defaults to pd.DataFrame.
+
+    Returns:
+        pd.DataFrame: pandas DataFrame with nan percentages.
+    """
+    return (df.isnull().sum() / df.shape[0] * 100).sort_values(ascending=False).round(2)
+
+
+def impute(
+    df: pd.DataFrame,
+    features: list,
+    n: int = None,
+    itype: str = "class",
+    column: str = None,
+    condition: str = None,
+    percentile: float = None,
+) -> pd.DataFrame:
     """Imputator
 
     It contains some functions to impute vectors in different ways.
@@ -81,59 +104,108 @@ def impute(df:pd.DataFrame, features:list, n:int=None, itype:str='class', column
 
     Returns:
         pd.DataFrame: data set with imputed columns.
-    """    
+    """
     for feature in features:
-        if itype == 'class':
+        if itype == "class":
             df.loc[df[feature].isnull(), feature] = n
-        elif itype == 'conditional':
+        elif itype == "conditional":
             df.loc[df[column].str.contains(condition, na=False), feature] = n
-        elif itype == 'percentile':
-            df.loc[df[feature].isnull(), feature] = df[feature].quantile(percentile/100)  
-        elif itype == 'same_as_norm':
-            df.loc[df[feature].isnull(), feature] = df[feature.replace('norm_','')]         
+        elif itype == "percentile":
+            df.loc[df[feature].isnull(), feature] = df[feature].quantile(
+                percentile / 100
+            )
+        elif itype == "same_as_norm":
+            df.loc[df[feature].isnull(), feature] = df[feature.replace("norm_", "")]
     return df
 
 
-def merge_dataframes(*args, on_type:str='transcript_id', how_type:str='left', pivot_on:int=0, nimpute:int=None) -> pd.DataFrame:
+def load_features(filepath: str) -> list:
+    """Loading features from a yaml file.
+
+    Args:
+        filepath (str): File path to the file.
+
+    Returns:
+        pd.DataFrame: pandas DataFrame with features.
+    """
+    return pd.DataFrame(parse_yaml(filepath))
+
+
+def log2_conversion(my_list: list, how: str, normalize: bool = False) -> list:
+    """Converting a list of values to log2 scale.
+
+    Args:
+        my_list (list): List of values to convert.
+        how(str): Type of conversion.
+
+    Returns:
+        list: List of log2 values.
+    """
+    if normalize:
+        values = [(1 + x) / 2 for x in my_list]
+    else:
+        values = my_list
+    if how == "forward":
+        result = [np.log2(x + 1) for x in values]
+    elif how == "backward":
+        result = [np.power(2, x) - 1 for x in my_list]
+        if normalize:
+            result = [x * 2 - 1 for x in result]
+    return result
+
+
+def merge_dataframes(
+    *args,
+    on_type: str = "transcript_id",
+    how_type: str = "left",
+    pivot_on: int = 0,
+    nimpute: int = None,
+) -> pd.DataFrame:
     """Pandas DataFrame merger Function.
-    
-    This function merges several DataFrame to create an unique database which contains same isoforms 
+
+    This function merges several DataFrame to create an unique database which contains same isoforms
     as reference database. It uses pandas merge method.
-    
+
     https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.merge.html
 
 
     Args:
-        on_type (str, optional): Merge on feature selected. Defaults to 
+        on_type (str, optional): Merge on feature selected. Defaults to
     'transcript_id'.
         how_type (str, optional): Merge method. Defaults to 'left'.
-        pivot_on (int, optional): Represent the first DataFrame to merge when 
+        pivot_on (int, optional): Represent the first DataFrame to merge when
     how_type='left'. Defaults to 0.
         nimpute (int, optional): If user wants to impute some feature, nimpute
     is the number to fill na. Defaults to None.
 
     Raises:
-        ValueError: Merge function has to receive more than one DataFrame inside 
+        ValueError: Merge function has to receive more than one DataFrame inside
     list argument
 
     Returns:
         pd.DataFrame: pandas DataFrame mergefd
-    """    
+    """
     args = list(args)
     if len(args) <= 1:
         raise ValueError(
-            'Merge function has to receive more than one DataFrame inside list argument.')
-    if how_type != 'left':
+            "Merge function has to receive more than one DataFrame inside list argument."
+        )
+    if how_type != "left":
         pivot_on == None
     args.insert(0, args.pop(pivot_on))
-    df = functools.reduce(lambda left, right: pd.merge(
-        left, right, on=on_type, how=how_type),args).drop_duplicates(subset=on_type).reset_index(drop=True)
+    df = (
+        functools.reduce(
+            lambda left, right: pd.merge(left, right, on=on_type, how=how_type), args
+        )
+        .drop_duplicates(subset=on_type)
+        .reset_index(drop=True)
+    )
     if nimpute != None:
         df = df.fillna(nimpute)
     return df
 
 
-def one_hot_encoding(df:pd.DataFrame, features:list) -> pd.DataFrame:
+def one_hot_encoding(df: pd.DataFrame, features: list) -> pd.DataFrame:
     """One Hot Encoder
 
     It encodes features selected as "one hot" mood and removing initial feature.
@@ -145,7 +217,7 @@ def one_hot_encoding(df:pd.DataFrame, features:list) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: data set with encoded features.
-    """    
+    """
     for feature in features:
         df[feature] = df[feature].astype(int)
         one_hot = pd.get_dummies(df[feature], prefix=feature)
@@ -154,7 +226,7 @@ def one_hot_encoding(df:pd.DataFrame, features:list) -> pd.DataFrame:
     return df
 
 
-def open_files(filepath:str) -> object:
+def open_files(filepath: str) -> object:
     """Openning both compressed and non-compressed files.
 
     Args:
@@ -162,16 +234,16 @@ def open_files(filepath:str) -> object:
 
     Returns:
         str: open file object.
-    """    
-    if filepath.endswith('.gz'):
-        open_file = gzip.open(filepath, 'rt')
-    else: 
-        open_file = open(filepath, 'r')
+    """
+    if filepath.endswith(".gz"):
+        open_file = gzip.open(filepath, "rt")
+    else:
+        open_file = open(filepath, "r")
     return open_file
 
 
-def parse_yaml(yaml_file:str) -> str:
-    '''YAML parsing function
+def parse_yaml(yaml_file: str) -> str:
+    """YAML parsing function
 
     This function parses a configuration file in yaml format (http://zetcode.com/python/yaml/).
 
@@ -184,8 +256,8 @@ def parse_yaml(yaml_file:str) -> str:
     -------
     config: dict
         Dictionary with configuration data structure.
-    '''
-    with open(yaml_file, 'r') as config:
+    """
+    with open(yaml_file, "r") as config:
         try:
             config = yaml.safe_load(config)
         except yaml.YAMLError as exc:
@@ -193,10 +265,12 @@ def parse_yaml(yaml_file:str) -> str:
     return config
 
 
-def reduce_mem_usage(df:pd.DataFrame, verbose:bool=False, round_float:int=False) -> pd.DataFrame:
+def reduce_mem_usage(
+    df: pd.DataFrame, verbose: bool = False, round_float: int = False
+) -> pd.DataFrame:
     """Memory reducer Function
 
-    It reduces memory usage of pandas DataFrame. 
+    It reduces memory usage of pandas DataFrame.
     Inspired in https://www.kaggle.com/artgor/artgor-utils
 
     Args:
@@ -214,15 +288,18 @@ def reduce_mem_usage(df:pd.DataFrame, verbose:bool=False, round_float:int=False)
         if df[col].dtype != object:
             if verbose:
                 logger.info(
-                    "******************************\nColumn: {}\ndtype before: {}\n".format(col, df[col].dtype))
+                    "******************************\nColumn: {}\ndtype before: {}\n".format(
+                        col, df[col].dtype
+                    )
+                )
             IsInt = False
             mx = df[col].max()
             mn = df[col].min()
             if not np.isfinite(df[col]).all():
                 NAlist.append(col)
-                df[col].fillna(mn-1, inplace=True)
+                df[col].fillna(mn - 1, inplace=True)
             asint = df[col].fillna(0).astype(np.int64)
-            result = (df[col] - asint)
+            result = df[col] - asint
             result = result.sum()
             if result > -0.01 and result < 0.01:
                 IsInt = True
@@ -254,11 +331,34 @@ def reduce_mem_usage(df:pd.DataFrame, verbose:bool=False, round_float:int=False)
     logger.info("___MEMORY USAGE AFTER COMPLETION:___")
     mem_usg = df.memory_usage().sum() / 1024**2
     logger.info("Memory usage is: ", mem_usg, " MB")
-    logger.info("This is ", 100*mem_usg/start_mem_usg, "% of the initial size")
+    logger.info("This is ", 100 * mem_usg / start_mem_usg, "% of the initial size")
     return df, NAlist
 
 
-def reorder_cols(df:pd.DataFrame) -> pd.DataFrame:
+def remove_outliers_by_quantile(
+    df: pd.DataFrame, col: str, down: float = 0.25, up: float = 0.75
+) -> pd.DataFrame:
+    """Remove outliers by quantile function
+
+    It removes outliers from a data set by 2 quantiles.
+
+    Args:
+        df (pd.DataFrame): input data set.
+        col (str): Column name.
+        down (float, optional): Down percentile. Defaults to 0.25.
+        up (float, optional): Up percentile. Defaults to 0.75.
+
+    Returns:
+        pd.DataFrame: data set with removed outliers.
+    """
+    q1 = df[col].quantile(down)
+    q3 = df[col].quantile(up)
+    iqr = q3 - q1
+    df = df[(df[col] > (q1 - 1.5 * iqr)) & (df[col] < (q3 + 1.5 * iqr))]
+    return df
+
+
+def reorder_cols(df: pd.DataFrame) -> pd.DataFrame:
     """Reorder columns Function
 
     Ordering columns of DataFrame: Strings at the start of the df
@@ -268,11 +368,14 @@ def reorder_cols(df:pd.DataFrame) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: pandas DataFrame
-    """    
-    return df[list(df.select_dtypes(include='object').columns)+list(df.select_dtypes(exclude='object').columns)]
+    """
+    return df[
+        list(df.select_dtypes(include="object").columns)
+        + list(df.select_dtypes(exclude="object").columns)
+    ]
 
 
-def round_df_floats(df:pd.DataFrame, n:int=4) -> pd.DataFrame:
+def round_df_floats(df: pd.DataFrame, n: int = 4) -> pd.DataFrame:
     """Rounder floats Function
 
     It rounds to 4 (default) all the floated columns of the DataFrame
@@ -283,24 +386,27 @@ def round_df_floats(df:pd.DataFrame, n:int=4) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: data set with floated columns rounded
-    """    
-    df[df.select_dtypes(include='float', exclude=None).columns] = df.select_dtypes(include='float', exclude=None).round(n)
+    """
+    df[df.select_dtypes(include="float", exclude=None).columns] = df.select_dtypes(
+        include="float", exclude=None
+    ).round(n)
     return df
 
 
 @contextmanager
-def timer(title:str):
+def timer(title: str):
     """
     https://docs.python.org/3/library/contextlib.html
 
     """
     import time
+
     t0 = time.time()
     yield
-    logger.info("{} - done in {:.0f}m".format(title, round((time.time()-t0)/60), 2))
+    logger.info("{} - done in {:.0f}m".format(title, round((time.time() - t0) / 60), 2))
 
 
-def unity_ranger(df:pd.DataFrame, features:list) -> pd.DataFrame:
+def unity_ranger(df: pd.DataFrame, features: list) -> pd.DataFrame:
     """Unity ranger Function
 
     It truncates to 1 values higher than 1 and to 0 values lower than 0.
@@ -311,7 +417,7 @@ def unity_ranger(df:pd.DataFrame, features:list) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: data set with corrected features.
-    """    
+    """
     for feature in features:
         df.loc[df[feature] > 1, feature] = 1
         df.loc[df[feature] < 0, feature] = 0
