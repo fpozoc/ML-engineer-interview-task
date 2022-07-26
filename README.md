@@ -25,6 +25,7 @@
   - [Release History](#release-history)
   - [Contributing](#contributing)
   - [License](#license)
+  - [TO-DO](#to-do)
 
 --------------------------------------------------------------------------------
 
@@ -187,3 +188,13 @@ Fernando Pozo
 ## License
 
 See `LICENSE` [file](LICENSE).
+
+## TO-DO
+
+Just added some to-do ideas if I continue working on this project.
+
+- [ ] Implement an e2e model versioning solution like Weight and Biases, Neptune or MLFlow.
+- [ ] Complete testing coverage and activate codecov.
+- [ ] Setup dependabot.
+- [ ] Create new GitHub actions for release drafter, pre-commit, labelers or documentation.
+- [ ] Create a documentation webpage for the project.
