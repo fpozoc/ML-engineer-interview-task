@@ -194,7 +194,6 @@ for example `docker-compose up jupyter`.
 ├── notebooks
 │   ├── 01.eda.ipynb
 │   ├── 02.task_1.ipynb
-│   └── 03.task_2.ipynb
 ├── README.md
 ├── reports
 │   ├── figures
