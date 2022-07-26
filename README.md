@@ -4,16 +4,10 @@
 
 TO-DO
 
-- [] Make project description and report.
 - [] Train the second model.
-- [] Complete `make_dataset.py`, `features/feature_engineering.py` and `features/feature_selection.py`.
 - [] Execute `explainer.py`.
-- [] Create a test trial.
-- [] Setup a continuous integration pipeline (GitHub actions).
-- [] Review makefile.
-- [] Set up docker folder and docker-compose.yml.
-- [] Complete pyproject.toml.
 - [] Create a tree from project
+- [] Push to GitHub
 
 ## Table of contents
 
@@ -105,8 +99,6 @@ As I have already described, some improvements can be made to the model in the f
 ```sh
 #!/bin/bash
 mamba create --name nomoko python=3
-
-poetry install
 ```
 
 ## Usage
