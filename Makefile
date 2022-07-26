@@ -7,25 +7,35 @@ NO_OF_REPORT_FILES := $(words $(filter-out reports/.gitkeep, $(SRC_FILES)))
 DATASET := data/raw/immo_data.csv
 
 install: ## install dependencies
-	pip install -e ".[test, serve]"
+	pip install -e ".[test, extra]"
 
 clean: ## clean artifacts
 	@echo ">>> cleaning files"
 	rm data/processed/* models/*.pkl || true
 
-make-dataset: $(DATASET)
-
-$(DATASET):
+make-dataset:
 	@echo ">>> generating dataset"
 	python src/data/make_dataset.py --dataset data/raw/immo_data.csv --output data/processed/training_set.v1.tsv.gz
 
-train: $(DATASET) ## train the model, you can pass arguments as follows: make ARGS="--foo 10 --bar 20" train
+make-dataset-text:
+	@echo ">>> translating and creating nlp tasks for dataset 2"
+	python -m src.features.text --dataset data/raw/immo_data.csv --output data/processed/training_set.v2.tsv.gz
+
+train: ## train the model, you can pass arguments as follows: make ARGS="--foo 10 --bar 20" train
 	@echo ">>> training model"
 	python src/model/train.py  --dataset data/processed/training_set.v1.tsv.gz --model_selection --evaluation R2
 
-serve: ## serve trained model with a REST API using dploy-kickstart
-	@echo ">>> serving the trained model"
-	kickstart serve -e ml_skeleton_py/model/predict.py -l .
+train-text: ## train the model, you can pass arguments as follows: make ARGS="--foo 10 --bar 20" train
+	@echo ">>> training model"
+	python src/model/train.py  --dataset data/processed/training_set.v2.tsv.gz --model_selection --evaluation R2
+
+# serve: ## serve trained model with a REST API using dploy-kickstart to-be-done
+# 	@echo ">>> serving the trained model"
+# 		 serve -e src/model/predict.py -l .
+
+explain: ## create an ExplainerDashboard for the model interpretability task
+	@echo ">>> training model"
+	python src/model/explainer.py --dataset data/processed/training_set.v1.tsv.gz --model models/model.v.1.0.0.pkl
 
 run-pipeline: install clean make-dataset train serve  ## install dependencies -> clean artifacts -> generate dataset -> train -> serve
 

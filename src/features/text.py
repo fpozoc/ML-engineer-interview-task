@@ -41,43 +41,22 @@ def main():
 
     df = pd.read_csv(args.dataset, sep='\t', compression='gzip', lineterminator="\n")
 
-    # df = pd.read_csv(args.dataset, lineterminator="\n")
-    # df["idx"] = range(1, len(df) + 1)
-    # df.insert(
-    #     0,
-    #     "id",
-    #     [
-    #         f"{idx}.{totalRent} - {street} {houseNumber} {floor} ({town} - {city}, {state})"
-    #         for idx, state, city, town, street, houseNumber, floor, totalRent in zip(
-    #             df["idx"],
-    #             df["regionLevel1"],
-    #             df["regionLevel2"],
-    #             df["regionLevel3"],
-    #             df["street"],
-    #             df["houseNumber"],
-    #             df["floor"],
-    #             df["totalRent"],
-    #         )
-    #     ],
-    # )
-    # df = df.drop("idx", axis=1)
-
     df = nlp_feature_engineering(df=df, features=["description", "facilities"])
-    # df = df[
-    #     [
-    #         "id",
-    #         "description",
-    #         "facilities",
-    #         "description_finbert",
-    #         "facilities_finbert",
-    #         "description_vader",
-    #         "facilities_vader",
-    #         "description_textblob_polarity",
-    #         "description_textblob_subjectivity",
-    #         "facilities_textblob_polarity",
-    #         "facilities_textblob_subjectivity",
-    #     ]
-    # ]
+    df = df[
+        [
+            "id",
+            "description",
+            "facilities",
+            "description_finbert",
+            "facilities_finbert",
+            "description_vader",
+            "facilities_vader",
+            "description_textblob_polarity",
+            "description_textblob_subjectivity",
+            "facilities_textblob_polarity",
+            "facilities_textblob_subjectivity",
+        ]
+    ]
     df = df.drop(["description", "facilities"], axis=1)
     df.to_csv(args.output, sep="\t", compression="gzip", index=False)
 
@@ -94,7 +73,7 @@ def nlp_feature_engineering(df: pd.DataFrame, features: list) -> pd.DataFrame:
     """
     for feature in features:
         # translation
-        df[feature] = batch_translator(list(df[feature].values))
+        # df[feature] = batch_translator(list(df[feature].values))
 
         # Bert
         model = bert_model(model_path="yiyanghkust/finbert-tone", nlabels=3)

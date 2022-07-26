@@ -87,7 +87,7 @@ On the other hand, I used the following steps to create the training set for tas
 - **Sentence preprocessing** to prepare the text data for the translations and further Sentiment Analysis. Removing NANs, punctuation, stopwords, special characters were performed. In the following pipelines, both Tokenization, Stemming, and Lemmatization were performed.
 - **Sentiment Analysis** to identify, extract, quantify, and study affective states and personal information. I have included different pipelines in the model to capture as much heterogeneity as possible. First, I added `FinBert`, a pre-trained NLP model to analyze the sentiment of the financial text. Moreover, I used the `TextBlob` library to analyze the sentiment of the text. This package provides a score for polarity (the orientation of the expressed sentiment) and subjectivity (personal opinion or not). Finally, I used the `VADER` (Valence Aware Dictionary and sEntiment Reasoner) library to use the compound score (a standardized score for measuring positive, neutral, or negative opinions in the same value).
 - I got **8 extra features** ready for task 2 after the previous steps. This adds some additional features to the model that can predict the target and add precious information.
-
+- NOTE: The model for task 2 is not yet ready. The translation step is running in the background and seems to take a bit longer. This second model adds helpful information as far as I have already commented, and performance will be improved. The evaluation for this task will be presented in the same way as [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
 
 ### Extra requirements
 
@@ -121,7 +121,7 @@ cd Nomoko-ML-engineer-interview-task
 pip install .
 
 # optional
-	pip install -e ".[test, serve]"
+pip install -e ".[test, serve]"
 ```
 
 ## Usage
@@ -145,7 +145,7 @@ make-dataset-text              run ETL pipeline for task 2
 help                           show help on available commands
 lint                           flake8 linting and black code style
 run-pipeline                   clean artifacts -> generate dataset -> train -> serve
-serve                          serve trained model with a REST API using dploy-kickstart
+serve                          serve trained model with a REST API using dploy-kickstart (not implemented yet)
 test-docker                    run unit tests in docker environment
 test                           run unit tests in the current virtual environment
 train                          train the model for task 1
