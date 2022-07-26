@@ -1,6 +1,6 @@
 # custom
 data
-reports
+reports/figures
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
