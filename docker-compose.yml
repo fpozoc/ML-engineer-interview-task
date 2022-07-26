@@ -1,5 +1,5 @@
 
-version: '3'
+version: '1'
 
 services:
 
@@ -15,9 +15,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/test.Dockerfile
-  serve:
+  model:
     build:
       context: .
-      dockerfile: ./docker/serve.Dockerfile
+      dockerfile: ./docker/model.Dockerfile
     ports:
       - "8080:8080"
