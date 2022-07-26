@@ -21,7 +21,7 @@ $(DATASET):
 
 train: $(DATASET) ## train the model, you can pass arguments as follows: make ARGS="--foo 10 --bar 20" train
 	@echo ">>> training model"
-	python src/model/train.py --features config/features.yaml --model_selection
+	python src/model/train.py  --dataset data/processed/training_set.v1.tsv.gz --model_selection --evaluation R2
 
 serve: ## serve trained model with a REST API using dploy-kickstart
 	@echo ">>> serving the trained model"
