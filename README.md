@@ -20,6 +20,7 @@
     - [Improvements](#improvements)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Project structure](#project-structure)
   - [Author information](#author-information)
   - [Release History](#release-history)
   - [Contributing](#contributing)
@@ -114,16 +115,66 @@ Clone this repository and install it inside your recently created Conda environm
 ## Usage
 
 
+## Project structure
+
+```sh
+.                                                                                                                                                                           
+├── config                                                                                                                                                                  
+│   ├── features.csv                                                                                                                                                        
+│   └── features.yaml                                                                                                                                                       
+├── data                                                                                                                                                                    
+│   ├── external                                                                                                                                                            
+│   ├── interim                                                                                                                                                             
+│   ├── processed                                                                                                                                                           
+│   └── raw                                                                                                                                                                 
+├── docker                                                                                                                                                                  
+│   ├── jupyter.Dockerfile                                                                                                                                                  
+│   ├── model.Dockerfile                                                                                                                                                    
+│   └── test.Dockerfile                                                                                                                                                     
+├── docker-compose.yml
+├── docs
+├── environment.yml
+├── img
+│   └── nomoko_task.png
+├── LICENSE
+├── Makefile
+├── models
+│   ├── model_selection_model.v.1.0.0_2022-07-22_17-56-48_849140.log
+│   ├── model_selection_model.v.1.0.0.tsv
+│   └── model.v.1.0.0.pkl
+├── notebooks
+│   ├── 01.eda.ipynb
+│   ├── 02.task_1.ipynb
+│   └── 03.task_2.ipynb
+├── README.md
+├── reports
+│   ├── figures
+│   └── html
+├── run.sh
+├── setup.py
+├── src
+│   ├── data
+│   ├── features
+│   ├── __init__.py
+│   ├── model
+│   ├── __pycache__
+│   ├── utils
+│   └── visualization
+└── tests
+    ├── __pycache__
+    └── test_make_dataset.py
+```
+
 ## Author information
 
 Fernando Pozo
 
 - [GitHub (github.com/fpozoc)](https://github.com/fpozoc)
 - [Homepage (fpozoc.com)](https://fpozoc.com)
-- 
+
 ## Release History
 
-**0.0.1** - Model for task 1 initial release (22 July 2022)
+**1.0.0** - Model for task 1 initial release (22 July 2022)
 
 ## Contributing
 
