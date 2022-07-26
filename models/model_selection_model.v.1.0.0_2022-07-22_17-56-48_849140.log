@@ -1,0 +1,100 @@
+2022-07-22 17:56:48.851 | INFO     | src.model.model_selection:_create_file_log:311 - Nested CV (5 outer folds          - 10 innter folds) Model Selection will be          performed with 149504 training instances (49835 test instances) using          a Random State with seed=12123 and 20 processors.
+----------
+
+
+2022-07-22 17:56:48.852 | INFO     | src.model.model_selection:get_best_model:252 - --------------------------------------------------
+2022-07-22 17:56:48.852 | INFO     | src.model.model_selection:get_best_model:253 - Algorithm: Decision Tree
+2022-07-22 17:56:48.852 | INFO     | src.model.model_selection:get_best_model:254 - 	Inner loop:
+2022-07-22 17:56:48.854 | INFO     | src.model.model_selection:get_best_model:259 - 	(1)
+2022-07-22 17:56:54.896 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 14}
+2022-07-22 17:56:54.897 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7693621889452865
+2022-07-22 17:56:54.897 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.680484787280067
+2022-07-22 17:56:54.900 | INFO     | src.model.model_selection:get_best_model:259 - 	(2)
+2022-07-22 17:57:00.201 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 14}
+2022-07-22 17:57:00.202 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7677595002916533
+2022-07-22 17:57:00.202 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.6794336760404521
+2022-07-22 17:57:00.203 | INFO     | src.model.model_selection:get_best_model:259 - 	(3)
+2022-07-22 17:57:06.413 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 14}
+2022-07-22 17:57:06.414 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7692751101984883
+2022-07-22 17:57:06.414 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.6836676603165587
+2022-07-22 17:57:06.415 | INFO     | src.model.model_selection:get_best_model:259 - 	(4)
+2022-07-22 17:57:11.647 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 14}
+2022-07-22 17:57:11.648 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.76936376717382
+2022-07-22 17:57:11.648 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.680993502167056
+2022-07-22 17:57:11.649 | INFO     | src.model.model_selection:get_best_model:259 - 	(5)
+2022-07-22 17:57:16.979 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 14}
+2022-07-22 17:57:16.979 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7677833239474896
+2022-07-22 17:57:16.980 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.6788953059914409
+2022-07-22 17:57:16.980 | INFO     | src.model.model_selection:get_best_model:277 - 	Avg. R2 (on validation folds): 0.685 +/- 0.004
+2022-07-22 17:57:16.980 | INFO     | src.model.model_selection:get_best_model:252 - --------------------------------------------------
+2022-07-22 17:57:16.980 | INFO     | src.model.model_selection:get_best_model:253 - Algorithm: Gradient Boosting Machine
+2022-07-22 17:57:16.981 | INFO     | src.model.model_selection:get_best_model:254 - 	Inner loop:
+2022-07-22 17:57:16.982 | INFO     | src.model.model_selection:get_best_model:259 - 	(1)
+2022-07-22 18:21:09.018 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'learning_rate': 0.2, 'min_samples_leaf': 4}
+2022-07-22 18:21:09.019 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7370584057179363
+2022-07-22 18:21:09.019 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7257344913107113
+2022-07-22 18:21:09.020 | INFO     | src.model.model_selection:get_best_model:259 - 	(2)
+2022-07-22 18:44:51.302 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'learning_rate': 0.2, 'min_samples_leaf': 2}
+2022-07-22 18:44:51.303 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7358502122944819
+2022-07-22 18:44:51.303 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7239808823923464
+2022-07-22 18:44:51.304 | INFO     | src.model.model_selection:get_best_model:259 - 	(3)
+2022-07-22 19:08:24.242 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'learning_rate': 0.2, 'min_samples_leaf': 6}
+2022-07-22 19:08:24.242 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7379879821071508
+2022-07-22 19:08:24.243 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7267569364000452
+2022-07-22 19:08:24.244 | INFO     | src.model.model_selection:get_best_model:259 - 	(4)
+2022-07-22 19:31:45.779 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'learning_rate': 0.2, 'min_samples_leaf': 6}
+2022-07-22 19:31:45.779 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7379585262664483
+2022-07-22 19:31:45.780 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7270411616946972
+2022-07-22 19:31:45.781 | INFO     | src.model.model_selection:get_best_model:259 - 	(5)
+2022-07-22 19:54:54.230 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'learning_rate': 0.2, 'min_samples_leaf': 4}
+2022-07-22 19:54:54.231 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7362861035844601
+2022-07-22 19:54:54.231 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7249081271084907
+2022-07-22 19:54:54.231 | INFO     | src.model.model_selection:get_best_model:277 - 	Avg. R2 (on validation folds): 0.727 +/- 0.004
+2022-07-22 19:54:54.231 | INFO     | src.model.model_selection:get_best_model:252 - --------------------------------------------------
+2022-07-22 19:54:54.232 | INFO     | src.model.model_selection:get_best_model:253 - Algorithm: Random Forest
+2022-07-22 19:54:54.232 | INFO     | src.model.model_selection:get_best_model:254 - 	Inner loop:
+2022-07-22 19:54:54.233 | INFO     | src.model.model_selection:get_best_model:259 - 	(1)
+2022-07-22 20:03:10.454 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 2}
+2022-07-22 20:03:10.455 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.9209387165813917
+2022-07-22 20:03:10.456 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7245011741462097
+2022-07-22 20:03:10.459 | INFO     | src.model.model_selection:get_best_model:259 - 	(2)
+2022-07-22 20:11:21.427 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 3}
+2022-07-22 20:11:21.428 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.8855348362795844
+2022-07-22 20:11:21.428 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7237810860334024
+2022-07-22 20:11:21.431 | INFO     | src.model.model_selection:get_best_model:259 - 	(3)
+2022-07-22 20:19:31.930 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 3}
+2022-07-22 20:19:31.931 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.886666273386537
+2022-07-22 20:19:31.931 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7279432780162944
+2022-07-22 20:19:31.934 | INFO     | src.model.model_selection:get_best_model:259 - 	(4)
+2022-07-22 20:27:36.853 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 3}
+2022-07-22 20:27:36.855 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.886442305655272
+2022-07-22 20:27:36.856 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7267731518291136
+2022-07-22 20:27:36.858 | INFO     | src.model.model_selection:get_best_model:259 - 	(5)
+2022-07-22 20:35:51.620 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'min_samples_leaf': 2}
+2022-07-22 20:35:51.621 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.9202821006853681
+2022-07-22 20:35:51.621 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7234839420246735
+2022-07-22 20:35:51.622 | INFO     | src.model.model_selection:get_best_model:277 - 	Avg. R2 (on validation folds): 0.729 +/- 0.003
+2022-07-22 20:35:51.622 | INFO     | src.model.model_selection:get_best_model:252 - --------------------------------------------------
+2022-07-22 20:35:51.623 | INFO     | src.model.model_selection:get_best_model:253 - Algorithm: XGBoost
+2022-07-22 20:35:51.623 | INFO     | src.model.model_selection:get_best_model:254 - 	Inner loop:
+2022-07-22 20:35:51.628 | INFO     | src.model.model_selection:get_best_model:259 - 	(1)
+2022-07-22 20:37:59.390 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'max_depth': 6}
+2022-07-22 20:37:59.392 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.8089959409407962
+2022-07-22 20:37:59.392 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7274626065791346
+2022-07-22 20:37:59.395 | INFO     | src.model.model_selection:get_best_model:259 - 	(2)
+2022-07-22 20:40:07.158 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'max_depth': 6}
+2022-07-22 20:40:07.159 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.8099338974351035
+2022-07-22 20:40:07.159 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7266103549476768
+2022-07-22 20:40:07.162 | INFO     | src.model.model_selection:get_best_model:259 - 	(3)
+2022-07-22 20:42:11.470 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'max_depth': 6}
+2022-07-22 20:42:11.471 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.8109105018140369
+2022-07-22 20:42:11.471 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7282039821809722
+2022-07-22 20:42:11.474 | INFO     | src.model.model_selection:get_best_model:259 - 	(4)
+2022-07-22 20:44:27.990 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'max_depth': 5}
+2022-07-22 20:44:27.991 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.7842106353825511
+2022-07-22 20:44:27.992 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7300855825286189
+2022-07-22 20:44:27.994 | INFO     | src.model.model_selection:get_best_model:259 - 	(5)
+2022-07-22 20:46:35.323 | INFO     | src.model.model_selection:get_best_model:270 - 	Best params: {'max_depth': 6}
+2022-07-22 20:46:35.324 | INFO     | src.model.model_selection:get_best_model:271 - 	Train R2: 0.8089571578167447
+2022-07-22 20:46:35.324 | INFO     | src.model.model_selection:get_best_model:272 - 	Test R2: 0.7256836881549091
+2022-07-22 20:46:35.325 | INFO     | src.model.model_selection:get_best_model:277 - 	Avg. R2 (on validation folds): 0.731 +/- 0.004
