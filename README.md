@@ -1,4 +1,4 @@
-# Nomoko-ML-engineer-interview-task
+# ML-engineer-interview-task
 
 [![Python version](https://img.shields.io/badge/python-3.10-blue.svg)](https://pypi.org/project/kedro/)
 [![GitHub](https://img.shields.io/badge/--181717?logo=github&logoColor=ffffff)](https://github.com/)
