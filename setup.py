@@ -24,9 +24,9 @@ extras = {
     "extra": extra_deps}
 
 setup(
-    name="Nomoko-ML-engineer-interview-task",
+    name="ML-engineer-interview-task",
     version="0.0.1",
-    url="https://github.com/fpozoc/Nomoko-ML-engineer-interview-task",
+    url="https://github.com/fpozoc/ML-engineer-interview-task",
     author="Fernando Pozo",
     author_email="fpozoc@gmx.com",
     description="Description of my ml-skeleton package",

@@ -1,4 +1,4 @@
-# Nomoko-ML-engineer-interview-task
+# ML-engineer-interview-task
 
 [![Python version](https://img.shields.io/badge/python-3.10-blue.svg)](https://pypi.org/project/kedro/)
 [![GitHub](https://img.shields.io/badge/--181717?logo=github&logoColor=ffffff)](https://github.com/)
@@ -8,7 +8,7 @@
 
 ## Table of contents
 
-- [Nomoko-ML-engineer-interview-task](#nomoko-ml-engineer-interview-task)
+- [ML-engineer-interview-task](#ml-engineer-interview-task)
   - [Table of contents](#table-of-contents)
   - [Objective](#objective)
     - [Data](#data)
@@ -57,13 +57,13 @@ Additional points will be considered for DB schema design and access (postgreSQL
 
 ## Solution overview
 
-![schema](img/nomoko_task.png "Title")
-**Figure**: Nomoko-ML-engineer-interview-task solution. On the left side, the process of getting the training set for the first task is presented. In green, the NLP preprocessing and the dataset construction is shown. On the left side, the pipeline for the model training is presented. Finally, at the bottom, there are additional hints on the model and package deployment process.
+![schema](img/task.png "Title")
+**Figure**: ML-engineer-interview-task solution. On the left side, the process of getting the training set for the first task is presented. In green, the NLP preprocessing and the dataset construction is shown. On the left side, the pipeline for the model training is presented. Finally, at the bottom, there are additional hints on the model and package deployment process.
 
 The initial database `immo_data.csv` contains  268850 records and 36 features of real estate data from Germany.
 
 The tasks to be performed here were split into two main parts:
-- The first part in which only continuous, categorical, and boolean values from the initial dataset were used to construct a training set for the selected Machine Learning model. The objective was to predict the total rent of the property with a regression model. For this task, spatial data like names of states, cities, regions, zip codes and streets were discarded, but it is important to say that using these geographical coordinates can improve the model performance. Both [`notebooks/01.eda.ipynb`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/notebooks/01.eda.ipynb), `src/data`, `src/features`  contains the code to perform this task.
+- The first part in which only continuous, categorical, and boolean values from the initial dataset were used to construct a training set for the selected Machine Learning model. The objective was to predict the total rent of the property with a regression model. For this task, spatial data like names of states, cities, regions, zip codes and streets were discarded, but it is important to say that using these geographical coordinates can improve the model performance. Both [`notebooks/01.eda.ipynb`](https://github.com/fpozoc/ML-engineer-interview-task/blob/master/notebooks/01.eda.ipynb), `src/data`, `src/features`  contains the code to perform this task.
 - The second part, both `description` and `facilities` features are allowed to be added to the model. The objective was the same as before but this time, I can use this text data to predict the total rent of the property.
 - All the code I have used to perform the previous task and for training the model has been saved in this repository. The `project_structure` can be found below. This has been implemented following the best routines for packaging, CI/CD, testing, linting, containerization, setup and even further deployment, model versioning, and correct documentation.
 
@@ -72,13 +72,13 @@ The tasks to be performed here were split into two main parts:
 On the one hand, to create the training set for task 1, I used the following steps:
 - **Data exploration** or EDA, where I took the opportunity to understand better every single feature to be used with optimal performance in the further model. Apart from `pandas`, `numpy`, and `matplotlib`, I used the `DataPrep` package to explore the data and to perform some basic data cleaning. The HTML preprocessing and postprocessing can be found in `reports` folder. Features description can be found grouped and sorted in `config/features.csv` or `config/features.yaml` files.
 - **Data preprocessing** to remove some not-useful features with NANs and houses without `totalRent` (15.07% of the total) info available. I added a special ID with some house features to be used as a reference for the model. Finally, I removed the spatial data for this model.
-- **Feature engineering** to transform the data to be used with the model. First, I converted the booleans (True/False) into integers (1/0), and then I transformed some categorical variables into dummy variables (One Hot Encoding). Notice that this step was performed considering every feature previously explored. For instance, I defined the `energyEfficiencyClass` in a way to be used by the model for the best performance (representing only three groups: A, B, and C). Details for other features can be found in [`notebooks/01.eda.ipynb`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/notebooks/01.eda.ipynb).
+- **Feature engineering** to transform the data to be used with the model. First, I converted the booleans (True/False) into integers (1/0), and then I transformed some categorical variables into dummy variables (One Hot Encoding). Notice that this step was performed considering every feature previously explored. For instance, I defined the `energyEfficiencyClass` in a way to be used by the model for the best performance (representing only three groups: A, B, and C). Details for other features can be found in [`notebooks/01.eda.ipynb`](https://github.com/fpozoc/ML-engineer-interview-task/blob/master/notebooks/01.eda.ipynb).
 - **Feature selection** to get the optimal number of predictive features for the model. The correlation matrix adds valuable insights into this process.
 - I got **199339 instances + 42 more intelligent features** ready for task 1 after previous steps.
 - **Model training** and **model selection** to train the model with the selected features. The model that achieved the best performance was the `XGBRegressor` model. To make this model selection, I used the `GridSearchCV` function, and I designed a strategy to follow a Nested Cross-Validation for selecting the optimal set of hyperparameters and to get the best model for this task. Other models like `DecisionTreeRegressor`, `RandomForestRegressor` or `GradientBoostingRegressor` were also tested. It is important to say that setting more models and a higher space of hyperparameters to be explored can improve the final model performance. This is why I have prepared in `src/model/model_selection.py` a complete script for doing this.
-- **Model evaluation** and **model interpretation** to evaluate with different metrics evaluation and interpret how our model is running. The `ExplainerDashboard` package released an amazing HTML notebook for this exploration. The notebook can be found in [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
+- **Model evaluation** and **model interpretation** to evaluate with different metrics evaluation and interpret how our model is running. The `ExplainerDashboard` package released an amazing HTML notebook for this exploration. The notebook can be found in [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
 - **Model persistence** to save the model in a file. The model can be used in the future to predict the total rent of the property. Now I have desinged a script to do this and also, to manually capture all the model logs. However, it is interesting to integrate it in a platform like Weight and Biases or MLflow to build better models at large scale.
-- **Model evaluation** results can be checked in the [`notebooks/02.task_1.ipynb`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/notebooks/02.task_1.ipynb) file.
+- **Model evaluation** results can be checked in the [`notebooks/02.task_1.ipynb`](https://github.com/fpozoc/ML-engineer-interview-task/blob/master/notebooks/02.task_1.ipynb) file.
 
 ### Task 2
 
@@ -87,7 +87,7 @@ On the other hand, I used the following steps to create the training set for tas
 - **Sentence preprocessing** to prepare the text data for the translations and further Sentiment Analysis. Removing NANs, punctuation, stopwords, special characters were performed. In the following pipelines, both Tokenization, Stemming, and Lemmatization were performed.
 - **Sentiment Analysis** to identify, extract, quantify, and study affective states and personal information. I have included different pipelines in the model to capture as much heterogeneity as possible. First, I added `FinBert`, a pre-trained NLP model to analyze the sentiment of the financial text. Moreover, I used the `TextBlob` library to analyze the sentiment of the text. This package provides a score for polarity (the orientation of the expressed sentiment) and subjectivity (personal opinion or not). Finally, I used the `VADER` (Valence Aware Dictionary and sEntiment Reasoner) library to use the compound score (a standardized score for measuring positive, neutral, or negative opinions in the same value).
 - I got **8 extra features** ready for task 2 after the previous steps. This adds some additional features to the model that can predict the target and add precious information.
-- NOTE: The model for task 2 is not yet ready. The translation step is running in the background and seems to take a bit longer. This second model adds helpful information as far as I have already commented, and performance will be improved. The evaluation for this task will be presented in the same way as [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/Nomoko-ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
+- NOTE: The model for task 2 is not yet ready. The translation step is running in the background and seems to take a bit longer. This second model adds helpful information as far as I have already commented, and performance will be improved. The evaluation for this task will be presented in the same way as [`reports/interpretation.model.v1.0.0.html`](https://github.com/fpozoc/ML-engineer-interview-task/blob/master/reports/html/interpretation.model.v1.0.0.html).
 
 ### Extra requirements
 
@@ -109,15 +109,15 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
 Once you have installed Miniconda/Anaconda, create a Python 3.10 environment.
 
 ```sh
-conda create --name nomoko python=3.10
-conda activate nomoko
+conda create --name rent python=3.10
+conda activate rent
 ```
 
 Clone this repository and install it inside your recently created Conda environment.
 
 ```sh
-git clone https://github.com/fpozoc/Nomoko-ML-engineer-interview-task
-cd Nomoko-ML-engineer-interview-task
+git clone https://github.com/fpozoc/ML-engineer-interview-task
+cd ML-engineer-interview-task
 pip install .
 
 # optional
@@ -184,7 +184,7 @@ for example `docker-compose up jupyter`.
 ├── docs
 ├── environment.yml
 ├── img
-│   └── nomoko_task.png
+│   └── task.png
 ├── LICENSE
 ├── Makefile
 ├── models

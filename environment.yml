@@ -1,4 +1,4 @@
-name: nomoko
+name: rent
 channels:
   - conda-forge
   - bioconda
