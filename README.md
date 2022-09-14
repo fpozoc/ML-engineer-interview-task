@@ -126,7 +126,7 @@ pip install -e ".[test, serve]"
 
 ## Usage
 
-First of all, copy and paste `immo_data.csv` in the `data/raw` folder.
+First of all, copy and paste [`immo_data.csv`](https://www.kaggle.com/datasets/corrieaar/apartment-rental-offers-in-germany) in the `data/raw` folder.
 
 ```sh
 cp immo_data.csv data/raw
